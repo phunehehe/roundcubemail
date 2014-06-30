@@ -87,9 +87,6 @@ class rcmail_output_html extends rcmail_output
         if ($this->framed || !empty($_REQUEST['_framed']))
             $this->set_env('framed', 1);
 
-        // add common javascripts
-        $this->add_script('var '.self::JS_OBJECT_NAME.' = new rcube_webmail();', 'head_top');
-
         // don't wait for page onload. Call init at the bottom of the page (delayed)
         $this->add_script(self::JS_OBJECT_NAME.'.init();', 'docready');
 
@@ -97,6 +94,10 @@ class rcmail_output_html extends rcmail_output
         $this->include_script('jquery.min.js');
         $this->include_script('common.js');
         $this->include_script('app.js');
+
+        // add common javascripts
+        // XXX: Ugly directory traversal
+        $this->include_script('../../rcmail_output_html.js.php');
 
         // register common UI objects
         $this->add_handlers(array(
